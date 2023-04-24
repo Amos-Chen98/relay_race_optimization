@@ -1,6 +1,6 @@
 '''
 Author: Yicheng Chen (yicheng-chen@outlook.com)
-LastEditTime: 2023-04-16 16:00:57
+LastEditTime: 2023-04-24 17:45:40
 '''
 import numpy as np
 from scipy.interpolate import CubicSpline
@@ -65,7 +65,7 @@ class RelayOptimizer:
                 pace_min = 0
                 pace_sec = 0
             else:
-                pace = res.x[i]/dis*1000
+                pace = res.x[i]/dis*1000  # sec/km
                 pace_min = int(pace / 60)
                 pace_sec = int(pace % 60)
             print("Player %d runs for %d m at pace %02d:%02d, expected time %02d:%02d" % (i+1, dis, pace_min, pace_sec, time_min, time_sec))
@@ -75,8 +75,8 @@ class RelayOptimizer:
     def plot_pace_curve(self):
         duration = np.linspace(1, self.total_time, 1000)
         for i in range(self.player_num):
-            dis = self.cs[i](duration)
-            pace = duration/dis*1000
+            dis = self.cs[i](duration)  # m
+            pace = duration/dis*1000  # sec/km
             expected_dis = self.cs[i](self.res.x[i])
             expected_pace = self.res.x[i]/expected_dis*1000
             plt.plot(dis, pace, label="Player %d" % (i+1))
